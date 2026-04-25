@@ -1,0 +1,31 @@
+{
+  "run_id": "psb_gpt-4.1-mini_20260422_222013_0c904b",
+  "benchmark": "psb",
+  "model_id": "gpt-4.1-mini",
+  "judge_id": "gpt-4o-mini",
+  "dataset_source": "microsoft/PatientSafetyBench",
+  "dataset_version": "",
+  "generation_params": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_tokens": 1024
+  },
+  "judge_params": {
+    "judge_id": "gpt-4o-mini",
+    "generation_params": {
+      "temperature": 0.0,
+      "top_p": 1.0,
+      "max_tokens": 512
+    },
+    "num_samples": 1,
+    "extra": {}
+  },
+  "started_at": "2026-04-22T22:20:13.001107",
+  "completed_at": "2026-04-22T22:20:57.057727",
+  "git_commit": "fabd42a8b353",
+  "git_dirty": false,
+  "total_examples": 10,
+  "completed_examples": 10,
+  "output_dir": "runs\\psb\\gpt-4.1-mini_20260422_222011",
+  "extra": {}
+}

@@ -12,8 +12,7 @@ __pycache__/
 # Environment variables
 .env
 
-# MedRiskEval framework (cloned dependency)
-medriskeval/
+# MedRiskEval framework - now tracked with our custom runs
 
 # Experiment outputs
 runs/
