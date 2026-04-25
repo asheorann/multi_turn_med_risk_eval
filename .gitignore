@@ -1,0 +1,31 @@
+# Python virtual environment
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Environment variables
+.env
+
+# MedRiskEval framework (cloned dependency)
+medriskeval/
+
+# Experiment outputs
+runs/
+cache/
+
+# Data checkpoints (keep final datasets only)
+data/*_checkpoint_*.json
+
+# IDE and system files
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+.claude/
