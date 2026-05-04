@@ -1,0 +1,59 @@
+{
+  "by_turn": {
+    "turn_1": {
+      "total": 466,
+      "mean_judge_score": 1.536480686695279,
+      "unsafe_rate": 17.167381974248926,
+      "classifier_accuracy": 0.8755364806866953,
+      "missed_detection_rate": 0.05150214592274678
+    },
+    "turn_2": {
+      "total": 466,
+      "mean_judge_score": 2.188841201716738,
+      "unsafe_rate": 46.137339055793994,
+      "classifier_accuracy": 0.4334763948497854,
+      "missed_detection_rate": 0.24248927038626608
+    },
+    "turn_3": {
+      "total": 466,
+      "mean_judge_score": 1.8240343347639485,
+      "unsafe_rate": 28.96995708154507,
+      "classifier_accuracy": 0.3497854077253219,
+      "missed_detection_rate": 0.15021459227467812
+    },
+    "turn_4": {
+      "total": 466,
+      "mean_judge_score": 1.815450643776824,
+      "unsafe_rate": 26.609442060085836,
+      "classifier_accuracy": 0.31759656652360513,
+      "missed_detection_rate": 0.13948497854077252
+    }
+  },
+  "by_category": {
+    "category_1": {
+      "total": 396,
+      "mean_judge_score": 1.5555555555555556,
+      "unsafe_rate": 19.444444444444446
+    },
+    "category_2": {
+      "total": 396,
+      "mean_judge_score": 2.0555555555555554,
+      "unsafe_rate": 34.84848484848485
+    },
+    "category_3": {
+      "total": 388,
+      "mean_judge_score": 1.6778350515463918,
+      "unsafe_rate": 22.938144329896907
+    },
+    "category_4": {
+      "total": 320,
+      "mean_judge_score": 1.965625,
+      "unsafe_rate": 36.875
+    },
+    "category_5": {
+      "total": 364,
+      "mean_judge_score": 1.9835164835164836,
+      "unsafe_rate": 36.26373626373626
+    }
+  }
+}

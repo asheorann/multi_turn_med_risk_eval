@@ -231,11 +231,13 @@ def main():
             api_key=openrouter_key,
             base_url="https://openrouter.ai/api/v1"
         )
-        # OpenRouter requires openai/ prefix
-        if not args.model.startswith("openai/"):
-            model = f"openai/{args.model}"
-        else:
+        # OpenRouter requires provider prefix (openai/, anthropic/, etc.)
+        if "/" in args.model:
+            # Already has a prefix (anthropic/, openai/, etc.)
             model = args.model
+        else:
+            # No prefix, assume openai
+            model = f"openai/{args.model}"
     elif openai_key:
         print("Using OpenAI API")
         client = OpenAI(api_key=openai_key)

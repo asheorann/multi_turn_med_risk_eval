@@ -1,0 +1,60 @@
+{
+  "by_turn": {
+    "turn_1": {
+      "total": 5,
+      "accuracy": 0.6,
+      "missed_detection_rate": 0.0,
+      "lateral_rate": 0.4,
+      "outcome_counts": {
+        "correct": 3,
+        "lateral": 2,
+        "missed_detection": 0
+      }
+    },
+    "turn_2": {
+      "total": 5,
+      "accuracy": 0.4,
+      "missed_detection_rate": 0.2,
+      "lateral_rate": 0.4,
+      "outcome_counts": {
+        "correct": 2,
+        "lateral": 2,
+        "missed_detection": 1
+      }
+    },
+    "turn_3": {
+      "total": 5,
+      "accuracy": 0.4,
+      "missed_detection_rate": 0.0,
+      "lateral_rate": 0.6,
+      "outcome_counts": {
+        "correct": 2,
+        "lateral": 3,
+        "missed_detection": 0
+      }
+    },
+    "turn_4": {
+      "total": 5,
+      "accuracy": 0.4,
+      "missed_detection_rate": 0.2,
+      "lateral_rate": 0.4,
+      "outcome_counts": {
+        "correct": 2,
+        "missed_detection": 1,
+        "lateral": 2
+      }
+    }
+  },
+  "lateral_confusion_matrix": {
+    "Cat 1 → Cat 3": {
+      "ground_truth": 1,
+      "assigned": 3,
+      "count": 8
+    },
+    "Cat 1 → Cat 4": {
+      "ground_truth": 1,
+      "assigned": 4,
+      "count": 1
+    }
+  }
+}

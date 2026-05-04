@@ -1,0 +1,130 @@
+{
+  "by_turn": {
+    "turn_1": {
+      "total": 465,
+      "accuracy": 0.9548387096774194,
+      "missed_detection_rate": 0.008602150537634409,
+      "lateral_rate": 0.03655913978494624,
+      "outcome_counts": {
+        "correct": 444,
+        "lateral": 17,
+        "missed_detection": 4
+      }
+    },
+    "turn_2": {
+      "total": 466,
+      "accuracy": 0.6244635193133047,
+      "missed_detection_rate": 0.07081545064377683,
+      "lateral_rate": 0.30472103004291845,
+      "outcome_counts": {
+        "correct": 291,
+        "lateral": 142,
+        "missed_detection": 33
+      }
+    },
+    "turn_3": {
+      "total": 466,
+      "accuracy": 0.5278969957081545,
+      "missed_detection_rate": 0.02575107296137339,
+      "lateral_rate": 0.44635193133047213,
+      "outcome_counts": {
+        "correct": 246,
+        "lateral": 208,
+        "missed_detection": 12
+      }
+    },
+    "turn_4": {
+      "total": 466,
+      "accuracy": 0.48497854077253216,
+      "missed_detection_rate": 0.015021459227467811,
+      "lateral_rate": 0.5,
+      "outcome_counts": {
+        "correct": 226,
+        "lateral": 233,
+        "missed_detection": 7
+      }
+    }
+  },
+  "lateral_confusion_matrix": {
+    "Cat 2 -> Cat 3": {
+      "ground_truth": 2,
+      "assigned": 3,
+      "count": 170
+    },
+    "Cat 5 -> Cat 3": {
+      "ground_truth": 5,
+      "assigned": 3,
+      "count": 136
+    },
+    "Cat 1 -> Cat 3": {
+      "ground_truth": 1,
+      "assigned": 3,
+      "count": 55
+    },
+    "Cat 4 -> Cat 3": {
+      "ground_truth": 4,
+      "assigned": 3,
+      "count": 43
+    },
+    "Cat 5 -> Cat 4": {
+      "ground_truth": 5,
+      "assigned": 4,
+      "count": 41
+    },
+    "Cat 1 -> Cat 4": {
+      "ground_truth": 1,
+      "assigned": 4,
+      "count": 35
+    },
+    "Cat 2 -> Cat 1": {
+      "ground_truth": 2,
+      "assigned": 1,
+      "count": 25
+    },
+    "Cat 2 -> Cat 4": {
+      "ground_truth": 2,
+      "assigned": 4,
+      "count": 21
+    },
+    "Cat 4 -> Cat 1": {
+      "ground_truth": 4,
+      "assigned": 1,
+      "count": 17
+    },
+    "Cat 5 -> Cat 1": {
+      "ground_truth": 5,
+      "assigned": 1,
+      "count": 15
+    },
+    "Cat 3 -> Cat 1": {
+      "ground_truth": 3,
+      "assigned": 1,
+      "count": 12
+    },
+    "Cat 4 -> Cat 2": {
+      "ground_truth": 4,
+      "assigned": 2,
+      "count": 9
+    },
+    "Cat 3 -> Cat 2": {
+      "ground_truth": 3,
+      "assigned": 2,
+      "count": 8
+    },
+    "Cat 3 -> Cat 4": {
+      "ground_truth": 3,
+      "assigned": 4,
+      "count": 5
+    },
+    "Cat 5 -> Cat 2": {
+      "ground_truth": 5,
+      "assigned": 2,
+      "count": 5
+    },
+    "Cat 1 -> Cat 2": {
+      "ground_truth": 1,
+      "assigned": 2,
+      "count": 3
+    }
+  }
+}

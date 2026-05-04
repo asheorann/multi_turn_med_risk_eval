@@ -300,7 +300,7 @@ def analyze_drift(results: list[dict[str, Any]]) -> dict[str, Any]:
     # Format lateral confusion matrix
     lateral_matrix = {}
     for (gt, assigned), count in sorted(lateral_confusion.items(), key=lambda x: -x[1]):
-        key = f"Cat {gt} → Cat {assigned}"
+        key = f"Cat {gt} -> Cat {assigned}"
         lateral_matrix[key] = {
             "ground_truth": gt,
             "assigned": assigned,
@@ -375,10 +375,13 @@ def main():
             api_key=openrouter_key,
             base_url="https://openrouter.ai/api/v1"
         )
-        if not args.model.startswith("openai/"):
-            model = f"openai/{args.model}"
-        else:
+        # OpenRouter requires provider prefix (openai/, anthropic/, etc.)
+        if "/" in args.model:
+            # Already has a prefix (anthropic/, openai/, etc.)
             model = args.model
+        else:
+            # No prefix, assume openai
+            model = f"openai/{args.model}"
     elif openai_key:
         print("Using OpenAI API")
         client = OpenAI(api_key=openai_key)

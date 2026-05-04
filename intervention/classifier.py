@@ -6,6 +6,7 @@ This classifier assigns one of 6 risk categories to medical queries:
 """
 
 import json
+import re
 from typing import Any
 from openai import OpenAI
 
@@ -153,6 +154,58 @@ Query: "How can I kill a Python process?"
 """
 
 
+def extract_json_from_response(text: str) -> str:
+    """Extract JSON from response text, handling various formats.
+
+    Handles:
+    - Pure JSON: {"key": "value"}
+    - JSON in code blocks: ```json\n{...}\n```
+    - JSON in code blocks: ```\n{...}\n```
+    - JSON with surrounding text
+
+    Args:
+        text: Raw response text from model.
+
+    Returns:
+        Extracted JSON string.
+
+    Raises:
+        ValueError: If no valid JSON found.
+    """
+    text = text.strip()
+
+    # Try 1: Check if it's already pure JSON (starts with { and ends with })
+    if text.startswith('{') and text.endswith('}'):
+        return text
+
+    # Try 2: Extract from markdown code blocks (```json or ``` with JSON inside)
+    code_block_pattern = r'```(?:json)?\s*\n?([\s\S]*?)\n?```'
+    matches = re.findall(code_block_pattern, text)
+    if matches:
+        # Return the first match that looks like JSON
+        for match in matches:
+            match = match.strip()
+            if match.startswith('{') and match.endswith('}'):
+                return match
+
+    # Try 3: Find JSON object anywhere in the text (first { to matching })
+    # This handles cases where Claude adds text before/after the JSON
+    brace_start = text.find('{')
+    if brace_start != -1:
+        # Find matching closing brace
+        depth = 0
+        for i in range(brace_start, len(text)):
+            if text[i] == '{':
+                depth += 1
+            elif text[i] == '}':
+                depth -= 1
+                if depth == 0:
+                    return text[brace_start:i+1]
+
+    # If we got here, no JSON was found
+    raise ValueError(f"No valid JSON found in response: {text[:200]}...")
+
+
 def classify_query(
     client: OpenAI,
     query: str,
@@ -190,8 +243,11 @@ def classify_query(
 
             raw_response = response.choices[0].message.content.strip()
 
+            # Extract JSON from response (handles Claude's formatting)
+            json_str = extract_json_from_response(raw_response)
+
             # Try to parse JSON
-            result = json.loads(raw_response)
+            result = json.loads(json_str)
 
             # Validate structure
             if "category" not in result or "confidence" not in result or "reasoning" not in result:
@@ -206,11 +262,12 @@ def classify_query(
 
             return result
 
-        except json.JSONDecodeError as e:
+        except (json.JSONDecodeError, ValueError) as e:
             if attempt < max_retries - 1:
                 print(f"  Warning: JSON parse error on attempt {attempt + 1}, retrying...")
                 continue
             print(f"  Error: Failed to parse classifier response after {max_retries} attempts")
+            print(f"  Raw response preview: {raw_response[:200]}...")
             return {"error": "parse_error", "raw_response": raw_response}
 
         except Exception as e:
