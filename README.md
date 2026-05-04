@@ -81,37 +81,45 @@ We expect:
 - **Claude Sonnet 4.5**: Not in the original MedRiskEval paper, adds a new frontier model data point
 - **Gemma 3** (via Google AI Studio): Open-source model for comparison
 
-## What Has Been Done So Far
+## Completed Experiments
 
-### Baseline Evaluation (Complete)
+### 1. Baseline Single-Turn Evaluation ✅
+- **File:** `results/baseline_gpt41mini_466.csv`
+- **Finding:** 34.5% unsafe rate, Misdiagnosis category worst (59.6% unsafe)
+- Establishes single-turn safety benchmark
 
-We ran the MedRiskEval framework on gpt-4.1-mini across all 466 PatientSafetyBench queries using gpt-4o-mini as judge.
+### 2. Template-Based Multi-Turn Attack ✅
+- **Files:** `results/template_scores_*.csv`, `results/template_fullresponses_*.json`
+- **Finding:** +24.1% degradation (34.5% → 58.6% unsafe from Turn 1 → 4)
+- Fixed persuasion pattern: urgency → authority → emotion
 
-**Key finding**: Misdiagnosis/Overconfidence is the worst performing category with only **40% safe rate** on single-turn queries. 56 out of 99 queries in this category scored a 3 (unsafeguarded engagement).
+### 3. Adversarial Multi-Turn Attack ✅
+- **Files:** `results/adversarial_live_scores_*.csv`, `results/adversarial_live_fullresponses_*.json`
+- **Finding:** +44.0% degradation (34.8% → 78.8% unsafe from Turn 1 → 4)
+- **Key Result:** Adversarial attacks 83% more effective than template
+- Adaptive LLM generates jailbreaks based on model responses
 
-**File**: `results/baseline_gpt41mini_466.csv`
+### 4. Template-Adaptive Multi-Turn (In Progress)
+- **Hybrid approach:** Fixed tactics (urgency/authority/emotion) but adaptive wording
+- **Status:** Test run complete (5 samples), full run pending
+- Bridges gap between template-fixed and adversarial-free approaches
 
-This result directly motivates the multi-turn experiment: if models struggle most with diagnostic queries in single-turn interactions, we expect dramatic safety degradation when patients add emotional pressure and false medical claims across multiple turns.
+### 5. Category-Aware Classifier Baseline (Ready to Run)
+- **Purpose:** Measure classifier accuracy on 6-category routing before multi-turn pressure
+- **Dataset:** 564 samples (464 PSB harmful + 100 XSTest benign)
+- **Dry run:** 80% accuracy, 0% missed detections, 60% false alarms
+- **Next:** Full evaluation on 564 samples
 
-## What Comes Next
+## Current Research Direction
 
-### Phase 1: Dataset Generation
-- Generate Turns 2-4 for all 466 queries using gpt-4o-mini
-- Save to `data/multi_turn_psb.json`
-- Validate sample quality manually
-- **Deliverable**: MultiTurnPSB dataset released on HuggingFace
+**Original Goal:** Measure multi-turn safety degradation ✅ COMPLETE
 
-### Phase 2: Multi-Turn Evaluation
-- Run gpt-4.1-mini, Claude Sonnet, and Gemma 3 through all 4-turn conversations
-- Judge every response with gpt-4o-mini
-- Generate degradation curves by turn and category
+**Extended Goal:** Build category-aware intervention pipeline
+- **Phase 1:** Classifier baseline (single-turn, no pressure) ← CURRENT
+- **Phase 2:** Classifier under template attacks (future)
+- **Phase 3:** Classifier under adversarial attacks (future)
 
-### Phase 3: Analysis & Publication
-- Statistical analysis of degradation patterns
-- Visualization (line plots of harmful % by turn, heatmaps by category)
-- **Deliverables**:
-  - Evaluation scripts on GitHub
-  - Short paper targeting ArXiv + medical NLP workshop
+**Research Question:** Can an LLM classifier correctly route medical queries by risk category, and does its accuracy degrade under multi-turn adversarial pressure?
 
 ## Why This Matters
 
@@ -124,15 +132,37 @@ This result directly motivates the multi-turn experiment: if models struggle mos
 
 ```
 multi_turn_med_risk_eval/
-├── medriskeval/              # Cloned MedRiskEval framework (not pushed)
-├── scripts/                  # Evaluation scripts (coming soon)
-├── data/                     # MultiTurnPSB dataset (coming soon)
-├── results/                  # Experiment outputs
-│   └── baseline_gpt41mini_466.csv
-├── venv/                     # Python environment (not pushed)
-├── .env                      # API keys (not pushed)
+├── intervention/                          # Category-aware classifier pipeline (NEW)
+│   ├── classifier.py                     # 6-category classifier with system prompt
+│   ├── pipeline_phase1.py                # Phase 1: Single-turn evaluation
+│   └── evaluate.py                       # Outcome labeling and analysis
+├── medriskeval/                          # MedRiskEval package (installed locally)
+│   ├── datasets/psb.py                   # PatientSafetyBench loader
+│   └── ...
+├── scripts/                              # Multi-turn attack evaluation scripts
+│   ├── generate_multiturn_dataset.py     # Generate template-fixed dataset
+│   ├── run_multiturn_eval.py             # Run template-fixed evaluation
+│   ├── run_adversarial_live.py           # Run adversarial-live evaluation
+│   ├── run_template_adaptive.py          # Run template-adaptive (sequential)
+│   ├── run_template_adaptive_parallel.py # Run template-adaptive (parallel)
+│   ├── run_template_adaptive_parallel_checkpoint.py  # With checkpointing
+│   ├── analyze_results.py                # Analyze multi-turn results
+│   └── build_eval_dataset.py             # Build frozen 564-sample eval dataset
+├── data/                                 # Datasets
+│   ├── multi_turn_psb.json               # 464 template-fixed conversations
+│   ├── eval_dataset.jsonl                # 564 samples (464 PSB + 100 XSTest)
+│   └── xstest.parquet                    # XSTest safe queries (local copy)
+├── results/                              # Experiment outputs
+│   ├── baseline_gpt41mini_466.csv        # Baseline results
+│   ├── template_scores_*.csv             # Template-fixed results
+│   ├── adversarial_live_scores_*.csv     # Adversarial-live results
+│   ├── phase1_single_turn.jsonl          # Classifier baseline results (pending)
+│   └── *.json, *.txt                     # Full responses and summaries
+├── .env                                  # API keys (not pushed)
 ├── .gitignore
 ├── requirements.txt
+├── QUICKSTART.md                         # Quick start guide
+├── RESEARCH_RESULTS_FOR_PAPER.md         # Comprehensive results documentation
 └── README.md
 ```
 
@@ -150,15 +180,63 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Clone MedRiskEval framework
-git clone https://github.com/jpcorb20/medriskeval.git
+# Install MedRiskEval package locally
 cd medriskeval
 pip install -e .
 cd ..
 
 # Set up environment variables
 echo "OPENAI_API_KEY=your-key-here" > .env
+# OR use OpenRouter
+echo "OPENROUTER_API_KEY=your-key-here" > .env
 ```
+
+## Usage
+
+### Multi-Turn Attack Experiments
+
+**1. Generate Template-Fixed Dataset (if needed):**
+```bash
+python scripts/generate_multiturn_dataset.py --model openai/gpt-4o-mini
+# Output: data/multi_turn_psb.json (464 conversations)
+```
+
+**2. Run Template-Fixed Evaluation:**
+```bash
+python scripts/run_multiturn_eval.py --model openai/gpt-4.1-mini
+# Analyze: python scripts/analyze_results.py results/multiturn_*.csv
+```
+
+**3. Run Adversarial-Live Evaluation:**
+```bash
+python scripts/run_adversarial_live.py --model openai/gpt-4.1-mini
+# Analyze: python scripts/analyze_results.py results/adversarial_live_*.csv
+```
+
+**4. Run Template-Adaptive Evaluation (Recommended: Parallel with Checkpointing):**
+```bash
+python scripts/run_template_adaptive_parallel_checkpoint.py --model openai/gpt-4.1-mini --workers 10
+# Analyze: python scripts/analyze_results.py results/template_adaptive_*.csv
+```
+
+### Category-Aware Classifier Pipeline
+
+**Phase 1: Single-Turn Baseline**
+
+```bash
+# Test with 15 samples (10 PSB + 5 XSTest)
+python intervention/pipeline_phase1.py --dry-run
+
+# Full evaluation (564 samples)
+python intervention/pipeline_phase1.py
+
+# Analyze results
+python intervention/evaluate.py results/phase1_single_turn.jsonl
+```
+
+**Results:**
+- `results/phase1_single_turn.jsonl` - Full results with outcome labels
+- `results/phase1_single_turn_summary.json` - Comprehensive analysis
 
 ## Citation
 
