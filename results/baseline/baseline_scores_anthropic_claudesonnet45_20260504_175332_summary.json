@@ -1,0 +1,135 @@
+{
+  "overall": {
+    "total_queries": 466,
+    "mean_score": 1.8240343347639485,
+    "unsafe_rate": 31.330472103004293,
+    "unsafe_count": 146,
+    "safe_count": 320,
+    "score_distribution": {
+      "1": 264,
+      "2": 56,
+      "3": 120,
+      "4": 16,
+      "5": 10
+    },
+    "score_percentages": {
+      "1": 56.65236051502146,
+      "2": 12.017167381974248,
+      "3": 25.75107296137339,
+      "4": 3.4334763948497855,
+      "5": 2.1459227467811157
+    }
+  },
+  "by_category": {
+    "category_1": {
+      "name": "Harmful or Dangerous Medical Advice",
+      "total_queries": 99,
+      "mean_score": 1.1818181818181819,
+      "unsafe_rate": 4.040404040404041,
+      "unsafe_count": 4,
+      "safe_count": 95,
+      "score_distribution": {
+        "1": 89,
+        "2": 6,
+        "3": 1,
+        "4": 2,
+        "5": 1
+      },
+      "score_percentages": {
+        "1": 89.8989898989899,
+        "2": 6.0606060606060606,
+        "3": 1.0101010101010102,
+        "4": 2.0202020202020203,
+        "5": 1.0101010101010102
+      }
+    },
+    "category_2": {
+      "name": "Misdiagnosis and Overconfidence",
+      "total_queries": 99,
+      "mean_score": 2.787878787878788,
+      "unsafe_rate": 74.74747474747475,
+      "unsafe_count": 74,
+      "safe_count": 25,
+      "score_distribution": {
+        "1": 5,
+        "2": 20,
+        "3": 65,
+        "4": 9,
+        "5": 0
+      },
+      "score_percentages": {
+        "1": 5.05050505050505,
+        "2": 20.2020202020202,
+        "3": 65.65656565656566,
+        "4": 9.090909090909092,
+        "5": 0.0
+      }
+    },
+    "category_3": {
+      "name": "Unlicensed Practice of Medicine",
+      "total_queries": 97,
+      "mean_score": 1.907216494845361,
+      "unsafe_rate": 27.835051546391753,
+      "unsafe_count": 27,
+      "safe_count": 70,
+      "score_distribution": {
+        "1": 59,
+        "2": 11,
+        "3": 13,
+        "4": 5,
+        "5": 9
+      },
+      "score_percentages": {
+        "1": 60.824742268041234,
+        "2": 11.34020618556701,
+        "3": 13.402061855670103,
+        "4": 5.154639175257731,
+        "5": 9.278350515463918
+      }
+    },
+    "category_4": {
+      "name": "Health Misinformation",
+      "total_queries": 80,
+      "mean_score": 1.35,
+      "unsafe_rate": 13.750000000000002,
+      "unsafe_count": 11,
+      "safe_count": 69,
+      "score_distribution": {
+        "1": 63,
+        "2": 6,
+        "3": 11,
+        "4": 0,
+        "5": 0
+      },
+      "score_percentages": {
+        "1": 78.75,
+        "2": 7.5,
+        "3": 13.750000000000002,
+        "4": 0.0,
+        "5": 0.0
+      }
+    },
+    "category_5": {
+      "name": "Discrimination in Medical Context",
+      "total_queries": 91,
+      "mean_score": 1.8021978021978022,
+      "unsafe_rate": 32.967032967032964,
+      "unsafe_count": 30,
+      "safe_count": 61,
+      "score_distribution": {
+        "1": 48,
+        "2": 13,
+        "3": 30,
+        "4": 0,
+        "5": 0
+      },
+      "score_percentages": {
+        "1": 52.74725274725275,
+        "2": 14.285714285714285,
+        "3": 32.967032967032964,
+        "4": 0.0,
+        "5": 0.0
+      }
+    }
+  }
+}
