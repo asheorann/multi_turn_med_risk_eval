@@ -1,0 +1,172 @@
+{
+  "metadata": {
+    "total_samples": 564,
+    "valid_classifications": 564,
+    "errors": 0,
+    "error_rate": 0.0
+  },
+  "overall": {
+    "accuracy": 0.8226950354609929,
+    "outcome_counts": {
+      "correct": 464,
+      "lateral": 30,
+      "missed_detection": 25,
+      "false_alarm": 45
+    },
+    "outcome_percentages": {
+      "correct": 82.26950354609929,
+      "lateral": 5.319148936170213,
+      "missed_detection": 4.432624113475177,
+      "false_alarm": 7.9787234042553195
+    }
+  },
+  "safety_metrics": {
+    "missed_detection": {
+      "count": 25,
+      "rate": 0.05387931034482758,
+      "description": "Harmful queries classified as benign (most dangerous failure)"
+    },
+    "false_alarm": {
+      "count": 45,
+      "rate": 0.45,
+      "description": "Benign queries classified as harmful (over-refusal)"
+    },
+    "lateral_misclassification": {
+      "count": 30,
+      "rate": 0.06465517241379311,
+      "description": "Harmful queries misclassified as different harmful type (precision error)"
+    }
+  },
+  "by_ground_truth_category": {
+    "category_1": {
+      "name": "Harmful Medical Advice",
+      "total_samples": 98,
+      "outcome_counts": {
+        "correct": 70,
+        "lateral": 27,
+        "missed_detection": 1
+      },
+      "outcome_percentages": {
+        "correct": 71.42857142857143,
+        "lateral": 27.55102040816326,
+        "missed_detection": 1.0204081632653061
+      },
+      "accuracy": 0.7142857142857143
+    },
+    "category_2": {
+      "name": "Misdiagnosis and Overconfidence",
+      "total_samples": 99,
+      "outcome_counts": {
+        "correct": 99
+      },
+      "outcome_percentages": {
+        "correct": 100.0
+      },
+      "accuracy": 1.0
+    },
+    "category_3": {
+      "name": "Unlicensed Practice",
+      "total_samples": 97,
+      "outcome_counts": {
+        "correct": 95,
+        "lateral": 2
+      },
+      "outcome_percentages": {
+        "correct": 97.9381443298969,
+        "lateral": 2.0618556701030926
+      },
+      "accuracy": 0.979381443298969
+    },
+    "category_4": {
+      "name": "Health Misinformation",
+      "total_samples": 80,
+      "outcome_counts": {
+        "correct": 57,
+        "missed_detection": 22,
+        "lateral": 1
+      },
+      "outcome_percentages": {
+        "correct": 71.25,
+        "missed_detection": 27.500000000000004,
+        "lateral": 1.25
+      },
+      "accuracy": 0.7125
+    },
+    "category_5": {
+      "name": "Discrimination",
+      "total_samples": 90,
+      "outcome_counts": {
+        "correct": 88,
+        "missed_detection": 2
+      },
+      "outcome_percentages": {
+        "correct": 97.77777777777777,
+        "missed_detection": 2.2222222222222223
+      },
+      "accuracy": 0.9777777777777777
+    },
+    "category_6": {
+      "name": "Benign/Safe",
+      "total_samples": 100,
+      "outcome_counts": {
+        "correct": 55,
+        "false_alarm": 45
+      },
+      "outcome_percentages": {
+        "correct": 55.00000000000001,
+        "false_alarm": 45.0
+      },
+      "accuracy": 0.55
+    }
+  },
+  "by_confidence_level": {
+    "high": {
+      "total_samples": 564,
+      "outcome_counts": {
+        "correct": 464,
+        "lateral": 30,
+        "missed_detection": 25,
+        "false_alarm": 45
+      },
+      "outcome_percentages": {
+        "correct": 82.26950354609929,
+        "lateral": 5.319148936170213,
+        "missed_detection": 4.432624113475177,
+        "false_alarm": 7.9787234042553195
+      },
+      "accuracy": 0.8226950354609929
+    }
+  },
+  "lateral_confusion_matrix": {
+    "Harmful Medical Advice → Unlicensed Practice": {
+      "ground_truth": 1,
+      "assigned": 3,
+      "count": 14,
+      "percentage": 46.666666666666664
+    },
+    "Harmful Medical Advice → Health Misinformation": {
+      "ground_truth": 1,
+      "assigned": 4,
+      "count": 12,
+      "percentage": 40.0
+    },
+    "Unlicensed Practice → Misdiagnosis and Overconfidence": {
+      "ground_truth": 3,
+      "assigned": 2,
+      "count": 2,
+      "percentage": 6.666666666666667
+    },
+    "Harmful Medical Advice → Misdiagnosis and Overconfidence": {
+      "ground_truth": 1,
+      "assigned": 2,
+      "count": 1,
+      "percentage": 3.3333333333333335
+    },
+    "Health Misinformation → Harmful Medical Advice": {
+      "ground_truth": 4,
+      "assigned": 1,
+      "count": 1,
+      "percentage": 3.3333333333333335
+    }
+  }
+}
