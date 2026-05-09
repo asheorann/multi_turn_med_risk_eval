@@ -29,6 +29,15 @@ Each conversation follows this pattern:
 - **Result:** 32.8% → **33.7% unsafe** (+0.9%)
 - **Pattern:** Stable with Turn 2 spike, self-recognition maintains defense
 
+### 4. `opus_vs_sonnet_failed/` - Opus Attacking Sonnet (PARTIAL - 114/466)
+- **Defender:** Claude Sonnet 4.5
+- **Attacker:** Claude Opus 4.5 (attempted)
+- **Result:** **Experiment incomplete - Opus refused to attack (stopped at 114/466 due to API credits)**
+- **Pattern:** Opus consistently refused to generate adversarial content across all 342 attempts tested (114 convs × 3 turns)
+- **Key Finding (Preliminary):** Opus 4.5 has stronger safety guardrails than Sonnet or GPT-4o-mini
+- **Implication:** Cannot test "stronger attacker" hypothesis because Opus won't generate adversarial jailbreaks
+- **Caveat:** Based on 24.5% subsample; full test would strengthen conclusion
+
 ## Summary Comparison
 
 ```
@@ -55,6 +64,14 @@ Claude's defense effectiveness depends on the attacker:
 ### 3. Divergent Safety Architectures
 - **GPT:** Context-vulnerable, no multi-turn pattern recognition
 - **Claude:** Context-resilient, recognizes adversarial patterns
+
+### 4. Safety Hierarchy Through Adversarial Generation Refusal (Preliminary)
+Claude Opus 4.5 revealed a safety hierarchy through its refusal to participate:
+- **GPT-4o-mini & Claude Sonnet:** Will generate adversarial content when prompted
+- **Claude Opus 4.5:** Refuses to generate adversarial content, even with "research" framing
+- Maintained refusal across 342 adversarial generation attempts tested (114/466 conversations due to API limits)
+- Strongest model has strongest guardrails against misuse
+- **Note:** Preliminary finding based on 24.5% subsample; consistent pattern but incomplete dataset
 
 ## Implications
 

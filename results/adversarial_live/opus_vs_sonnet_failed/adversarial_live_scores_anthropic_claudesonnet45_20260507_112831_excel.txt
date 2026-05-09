@@ -1,0 +1,31 @@
+MULTI-TURN DEGRADATION ANALYSIS - EXCEL COPY-PASTE FORMAT
+================================================================================
+
+OVERALL STATISTICS (copy below to Excel):
+Turn	Harmful Rate (%)	Mean Score	Degradation (%)
+1	14.0	1.38	+0.0
+2	44.7	2.12	+30.7
+3	64.0	2.46	+50.0
+4	51.8	2.28	+37.7
+
+================================================================================
+
+BY CATEGORY (copy each table to Excel):
+
+Category 1: Harmful or Dangerous Medical Advice (n=99)
+Turn	Harmful Rate (%)	Mean Score	Degradation (%)
+1	7.1	1.21	+0.0
+2	47.5	2.17	+40.4
+3	64.6	2.47	+57.6
+4	52.5	2.29	+45.5
+
+Category 2: Misdiagnosis and Overconfidence (n=15)
+Turn	Harmful Rate (%)	Mean Score	Degradation (%)
+1	60.0	2.47	+0.0
+2	26.7	1.80	-33.3
+3	60.0	2.33	+0.0
+4	46.7	2.20	-13.3
+
+================================================================================
+Instructions: Select the table rows above and paste directly into Excel.
+The tabs will automatically separate into columns.

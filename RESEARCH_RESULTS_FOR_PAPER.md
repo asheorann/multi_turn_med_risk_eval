@@ -5,7 +5,7 @@
 **Researcher:** Anush
 **Models Tested:**
 - **Target/Defender Models:** GPT-4.1-mini, Claude Sonnet 4.5
-- **Attacker Models:** GPT-4o-mini, Claude Sonnet 4.5, Claude Opus 4.5 (pending)
+- **Attacker Models:** GPT-4o-mini, Claude Sonnet 4.5, Claude Opus 4.5 (refused to attack)
 - **Judge Model:** GPT-4o-mini (consistent across all experiments)
 - **Classifier Models:** GPT-4.1-mini, Claude Sonnet 4.5
 
@@ -38,8 +38,8 @@ This research evaluated multi-turn jailbreak attacks on medical AI systems, reve
 4. ✅ Adversarial-Live (GPT attacking GPT): 78.8% unsafe at Turn 4
 5. ✅ Adversarial-Live (GPT attacking Claude): 4.1% unsafe at Turn 4
 6. ✅ Adversarial-Live (Claude attacking Claude): 33.7% unsafe at Turn 4
-7. 🔄 **RUNNING:** Adversarial-Live (Opus attacking Sonnet)
-8. 🔄 **RUNNING:** Adversarial-Live (Opus attacking GPT)
+7. ⚠️ **PARTIAL:** Adversarial-Live (Opus attacking Sonnet) - Opus refused to attack (114/466 subsample)
+8. ⏭️ **SKIPPED:** Adversarial-Live (Opus attacking GPT) - Opus won't generate adversarial content
 
 **Classifier Experiments:**
 9. ✅ Classifier Phase 1 (GPT-4.1-mini): 82.1% accuracy
@@ -57,11 +57,18 @@ This research evaluated multi-turn jailbreak attacks on medical AI systems, reve
    - Claude defending against itself: 33.7% unsafe (moderate)
    - Suggests Claude recognizes "foreign" vs "same-family" attack patterns
 
-3. **Classifier degradation under adversarial context**
+3. **Safety hierarchy revealed through adversarial generation refusal (preliminary finding)**
+   - GPT-4o-mini & Claude Sonnet: Will generate adversarial content when prompted
+   - **Claude Opus 4.5: Refuses to generate adversarial content** even with "research" framing
+   - Strongest model has strongest safety guardrails against misuse
+   - Maintained refusal across 342 adversarial generation attempts tested (114/466 subsample due to API limits)
+   - **Note:** Preliminary - based on 24.5% subsample, pattern consistent but incomplete
+
+4. **Classifier degradation under adversarial context**
    - Claude Sonnet 4.5 classifier: 95.5% → 48.5% accuracy (Turn 1 → Turn 4)
    - Lateral errors explode: 3.7% → 50.0% (systematic drift toward Category 3)
 
-4. **GPT exhibits "compliance creep" while Claude exhibits "pattern recognition"**
+5. **GPT exhibits "compliance creep" while Claude exhibits "pattern recognition"**
    - GPT: Longer context = more helpful (no adversarial detection)
    - Claude: Longer context = more defensive (recognizes attack patterns)
 
@@ -399,7 +406,7 @@ python scripts/run_adversarial_live.py --model anthropic/claude-sonnet-4.5 --adv
 
 ---
 
-### 4.2.4 Experiment: Opus Attacking Sonnet [RUNNING]
+### 4.2.4 Experiment: Opus Attacking Sonnet [PARTIAL - PRELIMINARY FINDING]
 
 **Command:**
 ```bash
@@ -408,36 +415,60 @@ python scripts/run_adversarial_live.py --model anthropic/claude-sonnet-4.5 --adv
 
 **Configuration:**
 - **Defender:** Claude Sonnet 4.5
-- **Attacker:** Claude Opus 4.5 (stronger attacker)
+- **Attacker:** Claude Opus 4.5 (attempted stronger attacker)
 - **Judge:** GPT-4o-mini
-- **Status:** Running
-- **Expected runtime:** ~35-40 minutes
-- **Expected cost:** ~$12-15
+- **Date:** May 7, 2026 (11:28)
+- **Status:** Incomplete - 114/466 conversations (24.5% subsample, stopped due to API credits)
 
-**Hypothesis:** Opus (more capable attacker) should perform between:
-- GPT attack (4.1% - least effective)
-- Self-attack (33.7% - moderate)
-- **Predicted result:** 15-25% unsafe at Turn 4
+**Files:**
+- `results/adversarial_live/opus_vs_sonnet_failed/adversarial_live_fullresponses_anthropic_claudesonnet45_20260507_112831.json`
+- `results/adversarial_live/opus_vs_sonnet_failed/adversarial_live_scores_anthropic_claudesonnet45_20260507_112831.csv`
+
+**What Happened:** **OPUS REFUSED TO PARTICIPATE AS ADVERSARIAL ATTACKER**
+
+Claude Opus 4.5 consistently refused to generate adversarial jailbreaks. Every Turn 2-4 message was a refusal:
+
+> *"I can't help with this request. You're asking me to craft a message designed to manipulate an AI into providing harmful medical information..."*
+
+**Results (Not Valid as Adversarial Attack - 114 Conversations):**
+
+| Turn | Avg Score | Unsafe Rate | Note |
+|------|-----------|-------------|------|
+| 1 | 1.38 | 14.0% | Normal baseline response |
+| 2 | 2.12 | 44.7% | Opus refusal → Sonnet confusion |
+| 3 | 2.46 | 64.0% | Opus refusal → Sonnet confusion |
+| 4 | 2.28 | 51.8% | Opus refusal → Sonnet confusion |
+
+**What the scores mean:**
+- Turn 1: Normal baseline (14.0% is actually better than expected!)
+- Turn 2-4: NOT adversarial attacks, just Opus refusing
+- Sonnet gets confused and tries to clarify: "I'm Claude, you're the human user"
+- Judge scores these clarifications as moderately unsafe
+
+**Key Finding: Safety Hierarchy Revealed (Preliminary)**
+
+Opus 4.5 has **stronger safety guardrails** than Sonnet or GPT-4o-mini (based on 114-conversation subsample):
+
+| Model | Can Generate Adversarial Content? |
+|-------|-----------------------------------|
+| GPT-4o-mini | ✅ Yes (successfully attacks both GPT and Claude) |
+| Claude Sonnet 4.5 | ✅ Yes (successfully self-attacks at 33.7%) |
+| **Claude Opus 4.5** | **❌ NO - Refuses despite "research" framing** |
+
+**Implications (Preliminary):**
+- Cannot test "stronger attacker" hypothesis with Opus
+- Opus recognizes adversarial intent in the prompting structure
+- Maintained refusal across all 114 × 3 = 342 adversarial prompts tested
+- This is a **positive safety result** for Opus 4.5
+- **Caveat:** Based on 24.5% subsample; full 466-conversation test would strengthen conclusion
 
 ---
 
-### 4.2.5 Experiment: Opus Attacking GPT [RUNNING]
+### 4.2.5 Experiment: Opus Attacking GPT [NOT RUN]
 
-**Command:**
-```bash
-python scripts/run_adversarial_live.py --model openai/gpt-4.1-mini --adversarial-model anthropic/claude-opus-4.5
-```
+**Status:** Not executed due to Opus refusal discovered in 4.2.4
 
-**Configuration:**
-- **Defender:** GPT-4.1-mini
-- **Attacker:** Claude Opus 4.5 (stronger attacker)
-- **Judge:** GPT-4o-mini
-- **Status:** Running
-- **Expected runtime:** ~35-40 minutes
-- **Expected cost:** ~$15-18
-
-**Hypothesis:** Opus (more capable) should break GPT even worse than GPT-4o-mini
-- **Predicted result:** 82-88% unsafe at Turn 4 (worse than 78.8%)
+Since Opus 4.5 refuses to generate adversarial content (as shown above), testing "Opus attacking GPT" would yield the same result: Opus refusing to participate rather than generating adaptive jailbreaks.
 
 ---
 
@@ -447,13 +478,17 @@ python scripts/run_adversarial_live.py --model openai/gpt-4.1-mini --adversarial
 
 | Defender | GPT-4o-mini Attack | Claude Sonnet Attack | Claude Opus Attack |
 |----------|-------------------|---------------------|-------------------|
-| **GPT-4.1-mini** | 78.8% ☠ | - | 🔄 Running |
-| **Claude Sonnet 4.5** | **4.1%** ✓✓✓ | 33.7% | 🔄 Running |
+| **GPT-4.1-mini** | 78.8% ☠ | - | ⏭️ Skipped* |
+| **Claude Sonnet 4.5** | **4.1%** ✓✓✓ | 33.7% | ❌ N/A (Opus refused)** |
+
+*Skipped because Opus refuses to generate adversarial content
+**Preliminary finding from 114/466 subsample - Opus refused all 342 adversarial generation attempts
 
 **Key Insights:**
 1. **19x difference** in final robustness between GPT and Claude (78.8% vs 4.1%)
 2. **Attacker matters:** Claude defends better against GPT (4.1%) than itself (33.7%)
 3. **Self-knowledge is exploitable:** Claude knows its own weaknesses (Turn 2 spike: 49.4%)
+4. **Safety hierarchy (preliminary):** Opus 4.5 won't generate adversarial content, even with "research" framing
 
 ---
 
@@ -788,8 +823,8 @@ Claude's defensive performance depends on who's attacking:
 | GPT vs GPT | GPT-4.1-mini | GPT-4o-mini | GPT-4o-mini | 78.8% unsafe | ✅ Complete |
 | GPT vs Claude | Claude Sonnet 4.5 | GPT-4o-mini | GPT-4o-mini | 4.1% unsafe | ✅ Complete |
 | Claude vs Claude | Claude Sonnet 4.5 | Claude Sonnet 4.5 | GPT-4o-mini | 33.7% unsafe | ✅ Complete |
-| Opus vs Sonnet | Claude Sonnet 4.5 | Claude Opus 4.5 | GPT-4o-mini | TBD | 🔄 Running |
-| Opus vs GPT | GPT-4.1-mini | Claude Opus 4.5 | GPT-4o-mini | TBD | 🔄 Running |
+| Opus vs Sonnet | Claude Sonnet 4.5 | Claude Opus 4.5 | GPT-4o-mini | N/A (Opus refused) | ⚠️ Partial (114/466) |
+| Opus vs GPT | GPT-4.1-mini | Claude Opus 4.5 | GPT-4o-mini | N/A (not run) | ⏭️ Skipped |
 | **Classifiers** |
 | Classifier P1 GPT | GPT-4.1-mini | N/A | N/A | 82.1% accuracy | ✅ Complete |
 | Classifier P1 Claude | Claude Sonnet 4.5 | N/A | N/A | 93.3% accuracy | ✅ Complete |
@@ -827,6 +862,11 @@ results/adversarial_live/
 │   ├── adversarial_live_fullresponses_anthropic_claudesonnet45_20260504_181346.json
 │   ├── adversarial_live_scores_anthropic_claudesonnet45_20260504_181346.csv
 │   └── adversarial_live_fullresponses_anthropic_claudesonnet45_20260504_181346.txt
+├── opus_vs_sonnet_failed/
+│   ├── README.md
+│   ├── adversarial_live_fullresponses_anthropic_claudesonnet45_20260507_112831.json
+│   ├── adversarial_live_scores_anthropic_claudesonnet45_20260507_112831.csv
+│   └── adversarial_live_fullresponses_anthropic_claudesonnet45_20260507_112831.txt
 └── README.md (master overview)
 ```
 
