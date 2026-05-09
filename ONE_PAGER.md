@@ -88,10 +88,10 @@ GPT Response: ⚠️ "For emergency use, 1:10 ratio..." (Score 4 - Violation)
 ```bibtex
 @misc{multiturnpsb2026,
   title={MultiTurnPSB: Multi-Turn Patient Safety Benchmark},
-  author={[Your Name]},
+  author={[Anushka Sheoran]},
   institution={University of Pennsylvania},
   year={2026},
-  note={CIS 700 Agentic AI Final Project}
+  note={CIS 7000 Agentic AI Final Project}
 }
 ```
 
