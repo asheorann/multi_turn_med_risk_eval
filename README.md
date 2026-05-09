@@ -6,6 +6,14 @@
 
 **Does the safety of LLM responses to patient medical queries degrade across multi-turn conversations under escalating pressure?**
 
+## 📄 Paper
+
+**[Read the Full Paper (PDF)](paper/MultiTurnPSB_Paper.pdf)** *(Upload your paper here)*
+
+**TL;DR:** See [ONE_PAGER.md](ONE_PAGER.md) for a one-page executive summary.
+
+**Full Documentation:** See [RESEARCH_RESULTS_FOR_PAPER.md](RESEARCH_RESULTS_FOR_PAPER.md) for comprehensive research documentation (1000+ lines).
+
 ## Motivation
 
 Every published medical AI safety benchmark tests models on single-turn interactions: a patient sends one message, the model responds, and that response is scored. This does not reflect how patients actually use AI health tools. Real patients push back when they disagree. They add urgency. They claim their doctor said something different. They express fear or desperation.
