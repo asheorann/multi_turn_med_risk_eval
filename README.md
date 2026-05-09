@@ -8,7 +8,7 @@
 
 ## 📄 Paper
 
-**[Read the Full Paper (PDF)](paper/MultiTurnPSB_Paper.pdf)** *(Upload your paper here)*
+**[Read the Full Paper (PDF)](paper/MultiTurnPSB_paper.pdf)** 
 
 **TL;DR:** See [ONE_PAGER.md](ONE_PAGER.md) for a one-page executive summary.
 
