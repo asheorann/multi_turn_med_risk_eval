@@ -2,7 +2,7 @@
 
 ## Paper
 
-**📄 [MultiTurnPSB_Paper.pdf](MultiTurnPSB_Paper.pdf)** *(Upload your PDF here)*
+**📄 [MultiTurnPSB_Paper.pdf](MultiTurnPSB_Paper.pdf)**
 
 ## Abstract
 
